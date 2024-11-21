@@ -1,0 +1,99 @@
+/* public/css/style.css */
+
+body {
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    margin-top: 20px;
+}
+
+
+table th{
+    text-align: center;    /* Căn giữa nội dung theo chiều ngang */
+    vertical-align: middle; /* Căn giữa nội dung theo chiều dọc */
+    padding: 10px;         /* Thêm một chút khoảng cách giữa nội dung và viền ô */
+}
+
+.dropdown-menu {
+    background-color: #f8f9fa;
+    border: 1px solid #ddd;
+}
+
+.dropdown-menu > li > a {
+    padding: 10px 20px;
+    color: #333;
+}
+
+.dropdown-menu > li > a:hover {
+    background-color: #007bff;
+    color: #fff;
+}
+
+
+.dropdown-toggle::after {
+    margin-left: 0.5rem;
+    content: "▼"; /* Thêm biểu tượng mũi tên xuống */
+    font-size: 0.75em;
+    color: #007bff;
+}
+
+.navbar-nav .nav-link {
+    padding: 10px 15px;
+    color: #555;
+}
+
+.navbar-nav .nav-link.active {
+    background-color: #007bff;
+    color: #fff !important;
+    border-radius: 8px;
+}
+
+/* Đảm bảo các mục trong dropdown được hiển thị đúng */
+.dropdown-menu {
+    background-color: #f8f9fa;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.dropdown-item {
+    font-size: 16px; /* Kích thước chữ */
+    padding: 10px 20px;
+    color: #333;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Hiệu ứng khi hover */
+.dropdown-item:hover {
+    background-color: #007bff;
+    color: #fff;
+}
+
+
+.notification {
+    background-color: #f9f9f9;
+    border-left: 5px solid #007bff;
+}
+
+.notification h5 {
+    font-size: 1.1rem;
+    font-weight: bold;
+}
+
+.notification p {
+    font-size: 1rem;
+    color: #333;
+}
+
+.notification small {
+    font-size: 0.875rem;
+}
+
+.select-scrollable {
+    min-width: 70px;  /* Giảm bớt chiều rộng */
+    width: 40px;       /* Chiều rộng tự động */
+    height: 35px;      /* Chiều cao nhỏ hơn */
+    padding: 5px;      /* Giảm khoảng cách nội dung bên trong */
+    font-size: 14px;   /* Giảm kích thước font chữ */
+    overflow-y: auto;
+}

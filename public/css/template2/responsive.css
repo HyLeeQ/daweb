@@ -1,0 +1,125 @@
+.header_section {
+  margin-top: 0;
+  background-color: #fff;
+  /* Nền header */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  /* Tạo bóng mờ cho header */
+  padding: 10px 0;
+}
+
+.navbar {
+  padding: 0;
+}
+
+.navbar-nav .nav-item {
+  margin-right: 20px;
+  /* Khoảng cách giữa các mục menu */
+}
+
+.navbar-nav .nav-link {
+  color: #333;
+  font-weight: 500;
+  padding: 8px 12px;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.navbar-nav .nav-link:hover {
+  color: #33cccc;
+}
+
+.quote_btn-container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px; /* Khoảng cách giữa các nút */
+  white-space: nowrap; /* Ngăn chữ xuống hàng */
+}
+
+.quote_btn-container a {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: white;
+  background-color: #33cccc;
+  padding: 8px 15px;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+  white-space: nowrap; /* Ngăn chữ xuống hàng */
+  gap: 10px; /* Khoảng cách giữa biểu tượng và chữ */
+}
+
+.quote_btn-container a i {
+  margin-right: 5px; /* Tạo khoảng cách giữa biểu tượng và chữ nếu cần */
+}
+
+.quote_btn-container a:hover {
+  background-color: #28a7a7;
+  color: #000;
+}
+
+.quote_btn-container form {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.quote_btn-container form button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+}
+
+.quote_btn-container form i {
+  color: #666;
+  font-size: 18px;
+  margin-right: 5px; /* Tạo khoảng cách giữa biểu tượng và chữ */
+}
+
+@media (max-width: 992px) {
+  .quote_btn-container {
+    flex-direction: column;
+    /* Chuyển các nút thành cột khi màn hình nhỏ */
+    align-items: center;
+    gap: 10px;
+    /* Khoảng cách giữa các phần tử khi xếp cột */
+  }
+
+  .quote_btn-container a {
+    margin-right: 0;
+    width: 100%;
+    text-align: center;
+  }
+
+  .navbar-nav {
+    justify-content: center;
+  }
+
+  .navbar-collapse {
+    text-align: center;
+  }
+}
+
+@media (max-width: 768px) {
+  .navbar-brand img {
+    width: 150px;
+    /* Giảm kích thước logo khi màn hình nhỏ */
+  }
+}
+
+.navbar-toggler {
+  border: none;
+  outline: none;
+}
+
+.navbar-toggler span {
+  display: inline-block;
+  width: 30px;
+  height: 2px;
+  background-color: #333;
+  margin: 6px 0;
+  transition: all 0.3s ease;
+}
