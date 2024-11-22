@@ -4,9 +4,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Teacher;
+use App\Models\Timetable;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class TeacherController extends Controller
 {
@@ -18,7 +20,23 @@ class TeacherController extends Controller
 
     public function showTimeTable()
     {
-        return view('teacher.timetable');
+        $teacherId = Auth::id();
+
+        // Lấy thời khóa biểu của giáo viên theo teacher_id
+        $timetable = Timetable::with('classroom')  // eager load quan hệ classroom
+            ->where('teacher_id', $teacherId)
+            ->get();
+
+        // Lấy thông tin giáo viên từ người dùng đang đăng nhập
+        $teacher = Auth::user()->teacher;
+
+        // Kiểm tra nếu không có giáo viên
+        if (!$teacher) {
+            return redirect()->route('teacher.dashboard')->withErrors('Bạn chưa được cấp thông tin giáo viên.');
+        }
+
+        // Trả về view với cả $timetable và $teacher
+        return view('teacher.timetable', compact('timetable', 'teacher'));
     }
 
     public function storeTeacher(Request $request)
@@ -52,11 +70,10 @@ class TeacherController extends Controller
         return redirect()->route('admin.index')->with('status', 'Thông tin giáo viên đã được cập nhật!');
     }
     public function showNotifications(Teacher $teacher)
-{
-    // $teacher là đối tượng Teacher đã được ánh xạ tự động từ route
-    $notifications = $teacher->notifications()->orderBy('created_at', 'desc')->get();
+    {
+        // $teacher là đối tượng Teacher đã được ánh xạ tự động từ route
+        $notifications = $teacher->notifications()->orderBy('created_at', 'desc')->get();
 
-    return view('teacher.notifications', compact('teacher', 'notifications'));
-}
-
+        return view('teacher.notifications', compact('teacher', 'notifications'));
+    }
 }

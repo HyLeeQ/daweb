@@ -6,6 +6,7 @@ use App\Models\ParentModel;
 use App\Models\Student;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ParentController extends Controller
 {
@@ -18,7 +19,19 @@ class ParentController extends Controller
     // Hiển thị thời khóa biểu của phụ huynh
     public function showTimeTable()
     {
-        return view('parents.timetable');
+        $user = Auth::user();  // Lấy thông tin người dùng hiện tại (phụ huynh)
+        $students = $user->students;  // Lấy tất cả học sinh của phụ huynh
+
+        // Mảng lưu trữ thời khóa biểu của các học sinh
+        $timetables = [];
+
+        // Lặp qua từng học sinh và lấy thời khóa biểu của học sinh đó thông qua lớp học
+        foreach ($students as $student) {
+            $classroom = $student->classroom;  // Lấy lớp học của học sinh
+            $timetables[$student->id] = $classroom->timetables;  // Lấy thời khóa biểu của lớp học đó
+        }
+
+        return view('parents.timetable', compact('timetables', 'students'));
     }
 
 
@@ -72,5 +85,4 @@ class ParentController extends Controller
         // Chuyển hướng sau khi lưu dữ liệu
         return redirect()->route('admin.index')->with('status', 'Thông tin phụ huynh và học sinh đã được lưu');
     }
-    
 }

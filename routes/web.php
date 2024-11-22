@@ -124,7 +124,7 @@ Route::middleware(['auth', CheckTeacher::class])->prefix('teacher')->name('teach
     Route::get('/dashboard', [TeacherController::class, 'index'])->name('dashboard');
 
     // Route cho trang lịch giảng dạy
-    Route::get('/time-table', [TeacherController::class, 'showTimeTable'])->name('timetable.view');
+    Route::get('/time-table', [TeacherController::class, 'showTimeTable'])->name('timetable');
 
     // Route để lưu thông tin giáo viên vào cơ sở dữ liệu
     Route::post('/store-teacher', [TeacherController::class, 'storeTeacher'])->name('teacher.store');

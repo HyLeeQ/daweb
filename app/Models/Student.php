@@ -15,10 +15,21 @@ class Student extends Model
         'course',
         'class',
         'teacher',
-        'parent_id'
+        'parent_id',
+        'classroom_id'
     ];
 
-    public function parent(){
+    public function parent()
+    {
         return $this->belongsTo(ParentModel::class, 'parent_id');
+    }
+    public function classroom()
+    {
+        return $this->belongsTo(Classroom::class);
+    }
+
+    public function timetables()
+    {
+        return $this->hasManyThrough(Timetable::class, Classroom::class, 'classroom_id', 'class_id');
     }
 }

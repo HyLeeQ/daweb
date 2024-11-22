@@ -30,9 +30,15 @@ class StudentController extends Controller
             'dob' => 'required|date',
             'course' => 'required|string',
             'class' => 'required|exists:classrooms,id',
-            'teacher' => 'required|string|max:255',
+            'teacher' => 'required|string|max:255', 
             'parent_id' => 'required|exists:parents,id'
         ]);
+
+        $classroom = Classroom::where('name', $request->class)->first();
+
+        if (!$classroom) {
+            return back()->withErrors(['class' => 'Tên lớp không hợp lệ.'])->withInput();
+        }
 
         Student::create([
             'name' => $request->name,
@@ -41,6 +47,7 @@ class StudentController extends Controller
             'class' => $request->class,
             'teacher' => $request->teacher,
             'parent_id' => $request->parent_id,
+            'classroom_id' => $classroom->id
         ]);
 
         return redirect()->route('admin.students.index')->with('success', 'Thêm học sinh thành công');

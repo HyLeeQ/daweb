@@ -19,7 +19,14 @@ class Timetable extends Model
 
     public function teacher()
     {
-        return $this->belongsTo(Teacher::class);
+        return $this->belongsTo(Teacher::class, 'teacher_id');
+    }
+    public function classroom()
+    {
+        return $this->belongsTo(Classroom::class, 'class_id');
+    }
+    public function students(){
+        return $this->belongsTo(Student::class);
     }
 }
 

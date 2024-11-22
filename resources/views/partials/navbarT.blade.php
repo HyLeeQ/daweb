@@ -59,12 +59,8 @@
                             <div class="d-flex mr-auto flex-column flex-lg-row align-items-center">
                                 <ul class="navbar-nav">
                                     <li
-                                        class="nav-item {{ Route::currentRouteName() == 'parents.studentInf' ? 'active' : '' }}">
-                                        <a class="nav-link" href="#">Thông tin học sinh</a>
-                                    </li>
-                                    <li
                                         class="nav-item {{ Route::currentRouteName() == 'parents.timetable' ? 'active' : '' }}">
-                                        <a class="nav-link" href="{{route('teacher.timetable.view')}}">Thời Khóa Biểu</a>
+                                        <a class="nav-link" href="{{route('teacher.timetable')}}">Thời Khóa Biểu</a>
                                     </li>
 
                                     <li
@@ -87,10 +83,7 @@
                                         class="nav-item {{ Route::currentRouteName() == 'parents.results' ? 'active' : '' }}">
                                         <a class="nav-link" href="#">Kết Quả Học Tập</a>
                                     </li>
-                                    <li
-                                        class="nav-item {{ Route::currentRouteName() == 'parents.fees' ? 'active' : '' }}">
-                                        <a class="nav-link" href="#">Học phí</a>
-                                    </li>
+                                    
                                 </ul>
                             </div>
                         </div>

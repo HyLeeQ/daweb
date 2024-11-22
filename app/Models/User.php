@@ -37,11 +37,11 @@ class User extends Authenticatable
         return $this->hasOne(Teacher::class, 'user_id');
     }
 
-    // Kiểm tra xem user có phải là giáo viên không
-    public function isTeacher()
-    {
-        return $this->teacher()->exists();
-    }
+    // // Kiểm tra xem user có phải là giáo viên không
+    // public function isTeacher()
+    // {
+    //     return $this->teacher()->exists();
+    // }
     public function notifications()
     {
         return $this->morphMany(Notification::class, 'notifiable');
@@ -49,5 +49,9 @@ class User extends Authenticatable
     public function parent()
     {
         return $this->hasOne(ParentModel::class);
+    }
+    public function students()
+    {
+        return $this->hasMany(Student::class, 'parent_id');
     }
 }

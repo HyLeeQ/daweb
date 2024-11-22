@@ -38,7 +38,7 @@
                         <select class="form-select form-select-lg" id="class" name="class" required>
                             <option value="">Chọn lớp</option>
                             @foreach ($classrooms as $classroom)
-                                <option value="{{ $classroom->id }}">{{ $classroom->name }}</option>
+                                <option value="{{ $classroom->name }}">{{ $classroom->name }}</option>
                             @endforeach
                         </select>
                     </div>
