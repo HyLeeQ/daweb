@@ -123,5 +123,87 @@ class AdminController extends Controller
 
         return redirect()->route('admin.teacher.index')->with('success', 'Xóa giáo viên thành công!');
     }
-    
+
+    public function parentsIndex()
+    {
+        $parents = ParentModel::with('students')->get();
+
+        return view('admin.parents.index', compact('parents'));
+    }
+
+    public function parentsEdit($id)
+    {
+        $parent = ParentModel::with('students')->find($id);
+
+        if (!$parent) {
+            return redirect()->route('admin.parents.index')->withErrors(['parent', 'Không tìm thấy phụ huynh nào']);
+        }
+        return view('admin.parents.edit', compact('parent'));
+    }
+
+    public function parentsUpdate(Request $request, $id)
+    {
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email',
+            'phone' => 'required|string|max:15',
+            'students.*.name' => 'required|string|max:255',
+            'students.*.class' => 'required|string|max:40',
+        ]);
+
+        $parent = ParentModel::find($id);
+
+        if (!$parent) {
+            return redirect()->route('admin.parents.index')->withErrors('parent', 'Không tìm thấy phụ huynh nào');
+        }
+        $parent->update($validatedData);
+
+        foreach ($request->students as $studentId => $studentData) {
+            $student = $parent->students()->find($studentId);
+            if ($student) {
+                $student->update($studentData);
+            }
+        }
+        return redirect()->route('admin.parents.index')->with('status', 'Thông tin của phụ huynh đã được lưu');
+    }
+
+    public function parentsDelete($id)
+    {
+        $parent = ParentModel::with('students')->find($id);
+        if (!$parent) {
+            return redirect()->route('admin.parents.index')->withErrors('parent', 'Không tìm thấy phụ huynh nào');
+        }
+
+        $parent->students()->delete();
+
+        $parent->delete();
+
+        return redirect()->route('admin.parents.index')->with('status', 'Phụ huynh và tất cả học sinh liên quan đã được xóa');
+    }
+
+    public function showParentInformation($id)
+    {
+        $parent = ParentModel::with('students')->find($id);
+
+        if (!$parent) {
+            return redirect()->back()->withErrors(['parent' => 'Không tìm thấy phụ huynh']);
+        }
+
+        return view('admin.parents.show', compact('parent'));
+    }
+
+    public function parentsSearch(Request $request)
+    {
+        // Lấy từ khóa tìm kiếm từ request
+        $keyword = $request->input('keyword');
+
+        // Tìm phụ huynh theo tên, email, hoặc số điện thoại
+        $parents = ParentModel::where('name', 'like', "%$keyword%")
+            ->orWhere('email', 'like', "%$keyword%")
+            ->orWhere('phone', 'like', "%$keyword%")
+            ->get();
+
+        // Trả về kết quả tìm kiếm ra view
+        return view('admin.parents.search', compact('parents'));
+    }
 }

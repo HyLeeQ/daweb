@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Classroom;
+use App\Models\ParentModel;
 use App\Models\Student;
 use Illuminate\Http\Request;
 
@@ -15,7 +17,10 @@ class StudentController extends Controller
 
     public function create()
     {
-        return view('admin.students.create');
+        $parents = ParentModel::all();
+
+        $classrooms = Classroom::all();
+        return view('admin.students.create', compact('classrooms', 'parents'));
     }
 
     public function store(Request $request)
@@ -24,8 +29,9 @@ class StudentController extends Controller
             'name' => 'required|string|max:255',
             'dob' => 'required|date',
             'course' => 'required|string',
-            'class' => 'required|string|max:50',
-            'teacher' => 'required|string|max:255'
+            'class' => 'required|exists:classrooms,id',
+            'teacher' => 'required|string|max:255',
+            'parent_id' => 'required|exists:parents,id'
         ]);
 
         Student::create([
@@ -33,7 +39,8 @@ class StudentController extends Controller
             'dob' => $request->dob,
             'course' => $request->course,
             'class' => $request->class,
-            'teacher' => $request->teacher
+            'teacher' => $request->teacher,
+            'parent_id' => $request->parent_id,
         ]);
 
         return redirect()->route('admin.students.index')->with('success', 'Thêm học sinh thành công');

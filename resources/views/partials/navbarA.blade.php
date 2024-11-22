@@ -66,32 +66,28 @@
                                         </a>
                                         <div class="dropdown-menu dropdown-menu-end shadow"
                                             aria-labelledby="notificationDropdown">
-                                            <a class="dropdown-item" href="{{route('admin.students.index')}}" style="font-size: 15px">Thông tin học sinh</a>
-                                            <a class="dropdown-item" href="{{route('admin.teacher.index')}}" style="font-size: 15px">Thông tin giáo viên</a>
-                                            <a class="dropdown-item" href="#" style="font-size: 15px">Thông tin phụ huynh</a>
+                                            <a class="dropdown-item" href="{{ route('admin.students.index') }}"
+                                                style="font-size: 15px">Thông tin học sinh</a>
+                                            <a class="dropdown-item" href="{{ route('admin.teacher.index') }}"
+                                                style="font-size: 15px">Thông tin giáo viên</a>
+                                            <a class="dropdown-item" href="{{ route('admin.parents.index') }}"
+                                                style="font-size: 15px">Thông tin phụ huynh</a>
                                         </div>
                                     </li>
                                     <li
                                         class="nav-item {{ Route::currentRouteName() == 'parents.fees' ? 'active' : '' }}">
-                                        <a class="nav-link" href="{{route('admin.notification.create')}}">Thông báo</a>
+                                        <a class="nav-link" href="{{ route('admin.notification.create') }}">Thông
+                                            báo</a>
                                     </li>
                                     <li
-                                        class="nav-item dropdown {{ Route::currentRouteName() == '#' ? 'active' : '' }}">
-                                        <a class="nav-link dropdown-toggle" href="#" id="notificationDropdown"
-                                            role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                            Kết Quả học tập
-                                        </a>
-                                        <div class="dropdown-menu dropdown-menu-end shadow"
-                                            aria-labelledby="notificationDropdown">
-                                            <a class="dropdown-item" href="#" style="font-size: 15px">Điểm học
-                                                tập</a>
-                                            <a class="dropdown-item" href="#" style="font-size: 15px">Điểm chuyên
-                                                cần</a>
-                                        </div>
+                                        class="nav-item">
+                                        <a class="nav-link" href="#">Kết Quá học tập </a>
                                     </li>
+                                   
                                     <li
                                         class="nav-item {{ Route::currentRouteName() == 'parents.fees' ? 'active' : '' }}">
-                                        <a class="nav-link" href="{{route('admin.timetable.create')}}">thời khóa biểu</a>
+                                        <a class="nav-link" href="{{ route('admin.timetable.create') }}">thời khóa
+                                            biểu</a>
                                     </li>
                                     <li
                                         class="nav-item {{ Route::currentRouteName() == 'parents.results' ? 'active' : '' }}">

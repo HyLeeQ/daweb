@@ -4,22 +4,23 @@
 
 @section('content')
     <div class="container my-5">
-        <h2>Kết quả tìm kiếm</h2>
+        <h2>Kết quả tìm kiếm phụ huynh</h2>
 
         <!-- Hiển thị từ khóa tìm kiếm -->
         <div class="mb-4">
             <strong>Từ khóa tìm kiếm: </strong>{{ request()->input('keyword') }}
         </div>
 
+        <!-- Bảng kết quả tìm kiếm -->
         <table class="table table-bordered mt-4">
             <thead class="table-dark">
                 <tr>
                     <th>ID</th>
-                    <th>Tên Sinh Viên</th>
-                    <th>Ngày Sinh</th>
-                    <th>Khóa Học</th>
+                    <th>Tên Phụ Huynh</th>
+                    <th>Email</th>
+                    <th>Số Điện Thoại</th>
+                    <th>Tên Con</th>
                     <th>Lớp</th>
-                    <th>Giáo Viên Chủ Nhiệm</th>
                 </tr>
             </thead>
             <tbody>
@@ -30,7 +31,20 @@
                             <td>{{ $parent->name }}</td>
                             <td>{{ $parent->email }}</td>
                             <td>{{ $parent->phone }}</td>
-                            <td>{{ $parent->child_name}}</td>
+                            <td>
+                                <ul>
+                                    @foreach ($parent->students as $student)
+                                        <li>{{ $student->name }}</li>
+                                    @endforeach
+                                </ul>
+                            </td>
+                            <td>
+                                <ul>
+                                    @foreach ($parent->students as $student)
+                                        <li>{{ $student->class }}</li>
+                                    @endforeach
+                                </ul>
+                            </td>
                         </tr>
                     @endforeach
                 @else

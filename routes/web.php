@@ -96,8 +96,14 @@ Route::middleware(['auth', CheckAdmin::class])->prefix('admin')->name('admin.')-
 
 
     //Route dẫn tới form điền thông tin phụ huynh
+    Route::get('/parents', [AdminController::class, 'parentsIndex'])->name('parents.index');
+    Route::get('/parent/{id}', [AdminController::class, 'showParentInformation'])->name('parents.information.parent.students');
     Route::get('/parent/create/{user_id}', [AdminController::class, 'createParentForm'])->name('parents.create');
     Route::post('/parent/store/{user_id}', [ParentController::class, 'storeParent'])->name('parents.store');
+    Route::get('/parent/{id}/edit', [AdminController::class, 'parentsEdit'])->name('parents.edit');
+    Route::put('/parent/{id}', [AdminController::class, 'parentsUpdate'])->name('parents.update');
+    Route::get('/parent/search', [AdminController::class, 'parentsSearch'])->name('parents.search');
+    Route::delete('/parent/{id}',[AdminController::class, 'parentsDelete'])->name('parents.delete');
     Route::get('/timetable/create', [TimeTableController::class, 'create'])->name('timetable.create');
     Route::post('/timetable/store', [TimeTableController::class, 'store'])->name('timetable.store');
 });

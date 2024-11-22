@@ -9,6 +9,10 @@ use Illuminate\Http\Request;
 
 class ParentController extends Controller
 {
+    public function home()
+    {
+        return view('parents.home');
+    }
     public function createParentForm() {}
 
     // Hiển thị thời khóa biểu của phụ huynh
@@ -17,11 +21,7 @@ class ParentController extends Controller
         return view('parents.timetable');
     }
 
-    // Trang chủ của phụ huynh
-    public function home()
-    {
-        return view('parents.home');
-    }
+
 
     // Hiển thị thông tin học sinh của phụ huynh
     public function showStudentInformation()
@@ -72,5 +72,5 @@ class ParentController extends Controller
         // Chuyển hướng sau khi lưu dữ liệu
         return redirect()->route('admin.index')->with('status', 'Thông tin phụ huynh và học sinh đã được lưu');
     }
-   
+    
 }
