@@ -17,6 +17,14 @@
                         <input type="text" class="form-control form-control-lg" id="name" name="name" required>
                     </div>
 
+                    <div class="mb-4">
+                        <label for="gender" class="form-label fs-4">Giới tính</label>
+                        <select name="gender" id="gender" class="form-select form-select-lg" required>
+                            <option value="Nam">Nam</option>
+                            <option value="Nữ">Nữ</option>
+                        </select>
+                    </div>
+
                     <!-- Ngày Sinh -->
                     <div class="mb-4">
                         <label for="dob" class="form-label fs-4">Ngày Sinh</label>
@@ -51,18 +59,26 @@
                                 <option value="{{ $parent->id }}">{{ $parent->name }}</option>
                             @endforeach
                         </select>
+                    </div>
+                    <!-- Giáo Viên Chủ Nhiệm -->
+                    <div class="mb-4">
+                        <label for="teacher" class="form-label fs-4">Giáo Viên Chủ Nhiệm</label>
+                        <select class="form-select form-select-lg" id="teacher" name="teacher" required>
+                            <option value="">Chọn giáo viên</option>
+                            @foreach ($teachers as $teacher)
+                                <option value="{{ $teacher->id }}">{{ $teacher->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    {{-- <div class="mb-4">
+                        <label for="teacher" class="form-label fs-4">Giáo Viên Chủ Nhiệm</label>
+                        <input type="text" class="form-control form-control-lg" id="teacher" name="teacher" required>
+                    </div> --}}
 
-                        <!-- Giáo Viên Chủ Nhiệm -->
-                        <div class="mb-4">
-                            <label for="teacher" class="form-label fs-4">Giáo Viên Chủ Nhiệm</label>
-                            <input type="text" class="form-control form-control-lg" id="teacher" name="teacher"
-                                required>
-                        </div>
-
-                        <!-- Nút Lưu -->
-                        <div class="text-center">
-                            <button type="submit" class="btn btn-primary btn-lg">Lưu</button>
-                        </div>
+                    <!-- Nút Lưu -->
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary btn-lg">Lưu</button>
+                    </div>
                 </form>
             </div>
         </div>

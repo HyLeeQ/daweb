@@ -26,6 +26,7 @@
                     <tr>
                         <th>ID</th>
                         <th>Tên Sinh Viên</th>
+                        <th>Giới Tính</th>
                         <th>Ngày Sinh</th>
                         <th>Khóa Học</th>
                         <th>Lớp</th>
@@ -38,6 +39,7 @@
                         <tr>
                             <td>{{ $student->id }}</td>
                             <td>{{ $student->name }}</td>
+                            <td>{{ $student->gender }}</td>
                             <td>{{ $student->dob }}</td>
                             <td>{{ $student->course }}</td>
                             <td>{{ $student->class }}</td>

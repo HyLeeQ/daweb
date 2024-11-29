@@ -20,7 +20,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (range(1, 5) as $i)
+                @foreach (range(1, 10) as $i)
                     <tr>
                         <td><input type="text" value=" {{ $i }}" class="form-control" readonly style="text-align: center; font-size: 15px"></td>
 

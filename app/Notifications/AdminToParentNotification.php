@@ -26,18 +26,12 @@ class AdminToParentNotification extends Notification
         return ['database'];
     }
 
-    public function toMail(object $notifiable): MailMessage
-    {
-        return (new MailMessage)
-            ->line('Thông báo từ Admin')
-            ->line($this->message);
-    }
     public function toDatabase($notifiable)
     {
         return [
             'message' => $this->message,  // Đảm bảo message là mảng hoặc chuỗi hợp lệ
             'sender' => 'Admin',          // Người gửi
-            'time' => now(),              // Thời gian gửi
+            'time' => now()->toISOString(),              // Thời gian gửi
         ];
     }
     

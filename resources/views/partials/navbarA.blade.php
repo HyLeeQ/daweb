@@ -40,7 +40,23 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
+<style>
+    .navbar-brand img {
+        width: 100%;
+        /* Để logo che toàn bộ không gian */
+        max-height: 70px;
+        /* Giới hạn chiều cao */
+        object-fit: cover;
+        /* Đảm bảo hình ảnh không bị méo */
+    }
 
+    .navbar-brand {
+        flex-grow: 1;
+        /* Nếu muốn logo chiếm toàn bộ không gian */
+        padding: 0;
+        margin: 0;
+    }
+</style>
 <body style="font-family: 'Open Sans', sans-serif;">
     <header class="header_section">
         <div class="hero_area">
@@ -48,7 +64,7 @@
                 <div class="container-fluid">
                     <nav class="navbar navbar-expand-lg custom_nav-container">
                         <a class="navbar-brand" href="#">
-                            <img src="images/logo.png" alt="">
+                            <img src="{{ asset('images/HL.png') }}" alt="">
                         </a>
                         <button class="navbar-toggler" type="button" data-toggle="collapse"
                             data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
@@ -79,11 +95,10 @@
                                         <a class="nav-link" href="{{ route('admin.notification.create') }}">Thông
                                             báo</a>
                                     </li>
-                                    <li
-                                        class="nav-item">
+                                    {{-- <li class="nav-item">
                                         <a class="nav-link" href="#">Kết Quá học tập </a>
-                                    </li>
-                                   
+                                    </li> --}}
+
                                     <li
                                         class="nav-item {{ Route::currentRouteName() == 'parents.fees' ? 'active' : '' }}">
                                         <a class="nav-link" href="{{ route('admin.timetable.create') }}">thời khóa
@@ -93,6 +108,22 @@
                                         class="nav-item {{ Route::currentRouteName() == 'parents.results' ? 'active' : '' }}">
                                         <a class="nav-link" href="{{ route('register.form') }}">tạo tài khoản</a>
                                     </li>
+                                    <div class="quote_btn-container">
+                                        <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                            <i class="fas fa-user" aria-hidden="true"></i><span>Đăng xuất</span>
+                                        </a>
+                                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                            @csrf
+                                        </form>
+                                    </div>
+                                    
+                                    {{-- <li class="nav-item ms-auto">
+                                        <a class="nav-link" href="{{ route('logout') }}"
+                                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                            Đăng Xuất
+                                        </a> --}}
+
+                                    {{-- </li> --}}
                                 </ul>
                             </div>
                         </div>

@@ -11,6 +11,13 @@
             <strong>Từ khóa tìm kiếm: </strong>{{ request()->input('keyword') }}
         </div>
 
+        <!-- Nút trở về -->
+        <div class="mb-4">
+            <a href="{{ url()->previous() }}" class="btn btn-secondary">
+                <i class="fas fa-arrow-left"></i> Quay lại
+            </a>
+        </div>
+        
         <table class="table table-bordered mt-4">
             <thead class="table-dark">
                 <tr>

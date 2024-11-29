@@ -33,7 +33,7 @@ table th{
 
 .dropdown-toggle::after {
     margin-left: 0.5rem;
-    content: "▼"; /* Thêm biểu tượng mũi tên xuống */
+    /* content: "▼"; Thêm biểu tượng mũi tên xuống */
     font-size: 0.75em;
     color: #007bff;
 }

@@ -38,9 +38,9 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (range(1, 5) as $i)
+                @foreach (range(1, 10) as $i)
                     <tr>
-                        <td><input type="text" name="time[{{ $i }}]" value="Giờ {{ $i }}" class="form-control" readonly></td>
+                        <td><input type="text" name="time[{{ $i }}]" value="Tiết {{ $i }}" class="form-control" readonly></td>
     
                         @foreach (range(1, 7) as $day)
                             <td>

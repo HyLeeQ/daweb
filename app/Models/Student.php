@@ -16,7 +16,9 @@ class Student extends Model
         'class',
         'teacher',
         'parent_id',
-        'classroom_id'
+        'classroom_id',
+        'gender',
+        'teacher_id'
     ];
 
     public function parent()
@@ -31,5 +33,15 @@ class Student extends Model
     public function timetables()
     {
         return $this->hasManyThrough(Timetable::class, Classroom::class, 'classroom_id', 'class_id');
+    }
+
+    public function teacher()
+    {
+        return $this->belongsTo(Teacher::class, 'teacher_id');
+    }
+
+    public function grades()
+    {
+        return $this->hasMany(Grade::class);
     }
 }

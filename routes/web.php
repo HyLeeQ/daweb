@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AdminNotificationController;
+use App\Http\Controllers\GradeController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RegisterController;
@@ -9,6 +10,7 @@ use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\ParentController;
 use App\Http\Controllers\ResetPasswordController;
 use App\Http\Controllers\TeacherController;
+use App\Http\Controllers\TeacherNotificationController;
 use App\Http\Controllers\TimeTableController;
 use App\Http\Middleware\CheckAdmin;
 use App\Http\Middleware\CheckParent;
@@ -26,7 +28,7 @@ Route::get('login', [LoginController::class, 'showLoginForm'])->name('login.form
 Route::post('login', [LoginController::class, 'login'])->name('login');
 
 // Route cho đăng xuất
-Route::get('logout', [LoginController::class, 'logout'])->name('logout');
+Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 
 // Route cho hiển thị form đăng ký
 Route::get('register', [RegisterController::class, 'showRegisterForm'])->name('register.form');
@@ -73,8 +75,8 @@ Route::middleware(['auth', CheckAdmin::class])->prefix('admin')->name('admin.')-
     Route::get('/teacher/search', [AdminController::class, 'teachersSearch'])->name('teacher.search');
     Route::get('/teacher/{id}/edit', [AdminController::class, 'teachersEdit'])->name('teacher.edit');
     Route::put('/teacher/{id}', [AdminController::class, 'teachersUpdate'])->name('teacher.update');
-    Route::delete('/teacher/{id}', [AdminController::class, 'teachersDestroy'])->name('teacher.destroy');    
-     //Route dẫn tới form điền thông tin dành cho giáo viên
+    Route::delete('/teacher/{id}', [AdminController::class, 'teachersDestroy'])->name('teacher.destroy');
+    //Route dẫn tới form điền thông tin dành cho giáo viên
     Route::get('/teacher/create/{user_id}', [AdminController::class, 'createTeacherForm'])->name('teacher.create');
     // Route để lưu thông tin giáo viên
     Route::post('/teacher/store/{user_id}', [TeacherController::class, 'storeTeacher'])->name('teacher.store');
@@ -82,17 +84,10 @@ Route::middleware(['auth', CheckAdmin::class])->prefix('admin')->name('admin.')-
 
     // Route hiển thị form gửi thông báo
     Route::get('/notification', [AdminNotificationController::class, 'create'])->name('notification.create');
-    // Route gửi thông báo cho một giáo viên
-    Route::post('/notification/send-to-teacher', [AdminNotificationController::class, 'sendToTeacher'])->name('notification.send_to_teacher');
-    // Route gửi thông báo cho nhiều giáo viên
-    Route::post('/notification/send-to-multiple-teachers', [AdminNotificationController::class, 'sendToMultipleTeachers'])->name('notification.send_to_multiple_teachers');
-    // Route gửi thông báo cho tất cả giáo viên
-    Route::post('/notification/send-to-all-teachers', [AdminNotificationController::class, 'sendToAllTeachers'])->name('notification.send_to_all_teachers');
-    // Route gửi thông báo cho phụ huynh
-    Route::post('/notification/send-to-parents', [AdminNotificationController::class, 'sendToParents'])->name('notification.send_to_parents');
 
+    // Route xử lý gửi thông báo
+    Route::post('/notification/send', [AdminNotificationController::class, 'sendNotification'])->name('notification.send');
 
-   
 
 
     //Route dẫn tới form điền thông tin phụ huynh
@@ -103,7 +98,7 @@ Route::middleware(['auth', CheckAdmin::class])->prefix('admin')->name('admin.')-
     Route::get('/parent/{id}/edit', [AdminController::class, 'parentsEdit'])->name('parents.edit');
     Route::put('/parent/{id}', [AdminController::class, 'parentsUpdate'])->name('parents.update');
     Route::get('/parent/search', [AdminController::class, 'parentsSearch'])->name('parents.search');
-    Route::delete('/parent/{id}',[AdminController::class, 'parentsDelete'])->name('parents.delete');
+    Route::delete('/parent/{id}', [AdminController::class, 'parentsDelete'])->name('parents.delete');
     Route::get('/timetable/create', [TimeTableController::class, 'create'])->name('timetable.create');
     Route::post('/timetable/store', [TimeTableController::class, 'store'])->name('timetable.store');
 });
@@ -113,7 +108,7 @@ Route::middleware(['auth', CheckAdmin::class])->prefix('admin')->name('admin.')-
 Route::middleware(['auth', CheckParent::class])->prefix('parent')->name('parents.')->group(function () {
     Route::get('/student-inf', [ParentController::class, 'showStudentInformation'])->name('studentInf');
     Route::get('/timetable', [ParentController::class, 'showTimeTable'])->name('timetable');
-    Route::get('/notifications', [ParentController::class, 'notifications'])->name('notifications');
+    Route::get('/notifications', [ParentController::class, 'showNotifications'])->name('notifications');
     Route::get('/results', [ParentController::class, 'results'])->name('results');
     Route::get('/fees', [ParentController::class, 'fees'])->name('fees');
 });
@@ -126,9 +121,28 @@ Route::middleware(['auth', CheckTeacher::class])->prefix('teacher')->name('teach
     // Route cho trang lịch giảng dạy
     Route::get('/time-table', [TeacherController::class, 'showTimeTable'])->name('timetable');
 
-    // Route để lưu thông tin giáo viên vào cơ sở dữ liệu
-    Route::post('/store-teacher', [TeacherController::class, 'storeTeacher'])->name('teacher.store');
-
     // Route cho trang thông báo của giáo viên
-    Route::get('/{teacher}/notifications', [TeacherController::class, 'showNotifications'])->name('notifications');
+    Route::get('/{teacher}/notifications', [TeacherController::class, 'showNotifications'])->name('notification.show');
+
+    // Route hiển thị form gửi thông báo
+    Route::get('/notification', [TeacherNotificationController::class, 'create'])->name('notification.create');
+
+    // Route xử lý gửi thông báo
+    Route::post('/notification/send', [TeacherNotificationController::class, 'sendNotification'])->name('notification.send');
+
+    // Route API để lấy học sinh theo lớp
+    Route::get('/api/classrooms/{classroom}/students', [TeacherNotificationController::class, 'getStudents']);
+
+    Route::get('/{teacher_id}/grades', [GradeController::class, 'index'])->name('grades.index');
+    Route::get('/{teacher_id}/grades/class/{class_id}', [GradeController::class, 'show'])->name('grades.show');
+    Route::get('/{teacher_id}/grades/create', [GradeController::class, 'create'])->name('grades.create');
+    Route::post('/grades/store', [GradeController::class, 'store'])->name('grades.store');
+    Route::get('/{teacher_id}/class/{class_id}/student/{student_id}/edit', [GradeController::class, 'edit'])->name('grades.edit');
+
 });
+Route::fallback(function () {
+    return response('Route không tồn tại. Kiểm tra lại URL.', 404);
+});
+Route::get('/grades/{teacher_id}', function ($teacher_id) {
+    return "Teacher ID: " . $teacher_id;
+})->name('grades.index');

@@ -51,12 +51,14 @@
                         <label for="course" class="form-label fw-bold">Khóa Học:</label>
                         <input type="text" name="course" class="form-control form-control-lg" placeholder="Khóa Học" required>
                     </div>
-
                     <div class="mb-3">
-                        <label for="subject" class="form-label fw-bold">Môn Học:</label>
-                        <input type="text" name="subject" class="form-control form-control-lg" placeholder="Môn Học" required>
+                        <label for="subject" class="form-label fw-bold">Chọn Môn Học:</label>
+                        <select name="subject_id" id="subject" class="form-control form-control-lg" required>
+                            @foreach ($subjects as $subject)
+                                <option value="{{ $subject->id }}">{{ $subject->name }}</option>
+                            @endforeach
+                        </select>
                     </div>
-
                     <div class="mb-3">
                         <label for="address" class="form-label fw-bold">Địa Chỉ:</label>
                         <input type="text" name="address" class="form-control form-control-lg" placeholder="Địa Chỉ" required>

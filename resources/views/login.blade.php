@@ -37,7 +37,7 @@
                     <label for="remember"><input type="checkbox" id="remember"> Ghi nhớ tài khoản</label>
                 </div>
                 <div class="form-group">
-                    <p><a href="{{ route('register.form') }}">Đăng ký ngay</a> | <a href="{{ route('forgot.email') }}">Quên mật khẩu?</a></p>
+                    <p><a href="{{ route('forgot.email') }}">Quên mật khẩu?</a></p>
                 </div>
                 <div class="form-group">
                     <input type="submit" value="Đăng Nhập" class="btn btn-primary">

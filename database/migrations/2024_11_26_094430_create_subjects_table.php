@@ -11,12 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('timetables', function (Blueprint $table) {
+        Schema::create('subjects', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('class_id')->constrained()->onDelete('cascade');
-            $table->integer('time_slot');
-            $table->integer('day_of_week');  // 1 = Monday, 7 = Sunday
-            $table->foreignId('teacher_id')->constrained()->onDelete('cascade');
+            $table->string('name');
             $table->timestamps();
         });
     }
@@ -26,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('timetables');
+        Schema::dropIfExists('subject');
     }
 };

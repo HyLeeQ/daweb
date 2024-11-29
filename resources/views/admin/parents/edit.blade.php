@@ -24,9 +24,13 @@
                     <input type="text" name="students[{{ $student->id }}][name]" value="{{ $student->name }}">
 
                     <label>Lớp:</label>
-                    <input type="text" name="students[{{ $student->id }}][class]" value="{{ $student->class }}">
-
-                    <!-- Các trường khác -->
+                    <select name="students[{{ $student->id }}][classroom_id]" required>
+                        @foreach ($classrooms as $classroom)
+                            <option value="{{ $classroom->id }}" @if ($student->classroom_id == $classroom->id) selected @endif>
+                                {{ $classroom->name }}
+                            </option>
+                        @endforeach
+                    </select>
                 </div>
             @endforeach
             <button type="submit" class="btn btn-primary">Cập nhật</button>

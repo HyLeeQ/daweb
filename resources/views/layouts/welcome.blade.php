@@ -39,6 +39,23 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
+<style>
+    .navbar-brand img {
+        width: 100%;
+        /* Để logo che toàn bộ không gian */
+        max-height: 70px;
+        /* Giới hạn chiều cao */
+        object-fit: cover;
+        /* Đảm bảo hình ảnh không bị méo */
+    }
+
+    .navbar-brand {
+        flex-grow: 1;
+        /* Nếu muốn logo chiếm toàn bộ không gian */
+        padding: 0;
+        margin: 0;
+    }
+</style>
 
 <body style="font-family: 'Open Sans', sans-serif;">
     <header class="header_section">
@@ -47,7 +64,7 @@
                 <div class="container-fluid">
                     <nav class="navbar navbar-expand-lg custom_nav-container">
                         <a class="navbar-brand" href="#">
-                            <img src="images/logo.png" alt="">
+                            <img src="images/HL.png" alt="">
                         </a>
                         <button class="navbar-toggler" type="button" data-toggle="collapse"
                             data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
@@ -59,19 +76,18 @@
                             <div class="d-flex mr-auto flex-column flex-lg-row align-items-center">
                                 <ul class="navbar-nav">
                                     <li class="nav-item active">
-                                        <a class="nav-link" href="#">Home <span
+                                        <a class="nav-link" href="#">Trang chủ <span
                                                 class="sr-only">(current)</span></a>
                                     </li>
-                                    <li class="nav-item"><a class="nav-link" href="#"> About</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="#">Treatment</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="#">Doctors</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="#">Testimonial</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="#">Contact Us</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="#"> Thông tin</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="#">Thông tin Liên lạc</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="#">Thông báo</a></li>
+
                                 </ul>
                             </div>
                             <div class="quote_btn-container">
                                 <a href="{{ route('login.form') }}">
-                                    <i class="fas fa-user" aria-hidden="true"></i><span>Login</span>
+                                    <i class="fas fa-user" aria-hidden="true"></i><span>Đăng nhập</span>
                                 </a>
                             </div>
                         </div>

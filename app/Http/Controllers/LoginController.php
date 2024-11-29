@@ -26,7 +26,7 @@ class LoginController extends Controller
 
         if ($user && Hash::check($request->password, $user->password)) {
             Auth::login($user);
-    
+
             // Phân luồng dựa trên vai trò của người dùng
             if ($user->role == 'admin') {
                 return redirect()->route('admin.index'); // Đổi lại route admin phù hợp
@@ -39,5 +39,15 @@ class LoginController extends Controller
         return back()->withErrors([
             'phone' => 'Thông tin đăng nhập chưa chính xác!!!'
         ]);
+    }
+
+    public function logout(Request $request)
+    {
+
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect('/');
     }
 }

@@ -21,7 +21,7 @@
                     <input type="email" name="email" class="form-control" id="email" placeholder="Nhập Email của bạn" autocomplete="off" required>
                 </div>
                 <div class="form-group">
-                    <p><a href="{{ route('login') }}">Đăng Nhập</a> | <a href="{{ route('register') }}">Đăng Ký</a></p>
+                    <p><a href="{{ route('login') }}">Đăng Nhập</a></p>
                 </div>
                 <div class="form-group">
                     <input type="submit" value="Gửi Email" class="btn btn-primary">

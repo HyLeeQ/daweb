@@ -29,12 +29,7 @@
         @yield('content')
     </main>
 
-    <footer>
-        <div class="col-md-12 text-center">
-            <p><small>&copy; Tất cả quyền được bảo lưu. Thiết kế bởi <a
-                        href="https://freehtml5.co">FreeHTML5.co</a></small></p>
-        </div>
-    </footer>
+   
     <!-- jQuery -->
     <script src="{{ asset('js/template1/jquery.min.js') }}"></script>
     <!-- Bootstrap -->

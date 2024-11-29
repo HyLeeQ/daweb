@@ -39,7 +39,23 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
+<style>
+    .navbar-brand img {
+        width: 100%;
+        /* Để logo che toàn bộ không gian */
+        max-height: 70px;
+        /* Giới hạn chiều cao */
+        object-fit: cover;
+        /* Đảm bảo hình ảnh không bị méo */
+    }
 
+    .navbar-brand {
+        flex-grow: 1;
+        /* Nếu muốn logo chiếm toàn bộ không gian */
+        padding: 0;
+        margin: 0;
+    }
+</style>
 <body style="font-family: 'Open Sans', sans-serif;">
     <header class="header_section">
         <div class="hero_area">
@@ -47,7 +63,7 @@
                 <div class="container-fluid">
                     <nav class="navbar navbar-expand-lg custom_nav-container">
                         <a class="navbar-brand" href="#">
-                            <img src="images/logo.png" alt="">
+                            <img src="{{ asset('images/HL.png') }}" alt="">
                         </a>
                         <button class="navbar-toggler" type="button" data-toggle="collapse"
                             data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
@@ -57,10 +73,10 @@
 
                         <div class="collapse navbar-collapse" id="navbarSupportedContent">
                             <div class="d-flex mr-auto flex-column flex-lg-row align-items-center">
-                                <ul class="navbar-nav">
+                                <ul class="navbar-nav ms-auto">
                                     <li
                                         class="nav-item {{ Route::currentRouteName() == 'parents.timetable' ? 'active' : '' }}">
-                                        <a class="nav-link" href="{{route('teacher.timetable')}}">Thời Khóa Biểu</a>
+                                        <a class="nav-link" href="{{ route('teacher.timetable') }}">Thời Khóa Biểu</a>
                                     </li>
 
                                     <li
@@ -71,19 +87,29 @@
                                         </a>
                                         <div class="dropdown-menu dropdown-menu-end shadow"
                                             aria-labelledby="notificationDropdown">
-                                            <a class="dropdown-item" href="{{ route('teacher.notifications', ['teacher' => $teacher->id]) }}" style="font-size: 15px">
+                                            <a class="dropdown-item"
+                                                href="{{ route('teacher.notification.show', ['teacher' => $teacher->id]) }}"
+                                                style="font-size: 15px">
                                                 Thông báo từ admin
                                             </a>
-                                            
-                                            
-                                            <a class="dropdown-item" href="#" style="font-size: 15px">Thông đến phụ huynh</a>
+                                            <a class="dropdown-item"
+                                                href="{{ route('teacher.notification.create', ['teacher' => $teacher->id]) }}"
+                                                style="font-size: 15px">Thông đến phụ huynh</a>
                                         </div>
                                     </li>
-                                    <li
-                                        class="nav-item {{ Route::currentRouteName() == 'parents.results' ? 'active' : '' }}">
-                                        <a class="nav-link" href="#">Kết Quả Học Tập</a>
+                                    <li class="nav-item {{ Route::currentRouteName() == 'teacher.grades.index' ? 'active' : '' }}">
+                                        <a class="nav-link" href="{{ route('teacher.grades.index', ['teacher_id' => $teacher_id]) }}">Kết Quả Học Tập</a>
                                     </li>
                                     
+                                    <div class="quote_btn-container">
+                                        <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                            <i class="fas fa-user" aria-hidden="true"></i><span>Đăng xuất</span>
+                                        </a>
+                                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                            @csrf
+                                        </form>
+                                    </div>
+
                                 </ul>
                             </div>
                         </div>

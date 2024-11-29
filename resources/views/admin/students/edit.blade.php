@@ -31,6 +31,17 @@
                     <input type="text" class="form-control" id="name" name="name" value="{{ old('name', $student->name) }}" required>
                 </div>
 
+                <div class="mb-4">
+                    <label for="gender" class="form-label">Giới tính</label>
+                    <select name="gender" id="gender" class="form-select form-select-lg" required>
+                        <option value="Nam" {{ old('gender', $student->gender) == 'Nam' ? 'selected' : '' }}>Nam</option>
+                        <option value="Nữ" {{ old('gender', $student->gender) == 'Nữ' ? 'selected' : '' }}>Nữ</option>
+                    </select>
+                    @error('gender')
+                        <div class="text-danger mt-1">{{ $message }}</div>
+                    @enderror
+                </div>
+
                 <!-- Ngày Tháng Năm Sinh -->
                 <div class="mb-3">
                     <label for="dob" class="form-label">Ngày Sinh</label>

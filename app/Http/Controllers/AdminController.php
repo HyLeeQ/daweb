@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Classroom;
 use App\Models\ParentModel;
 use App\Models\Student;
+use App\Models\Subject;
 use App\Models\User;
 use App\Models\Teacher;
 use Illuminate\Http\Request;
@@ -21,19 +23,24 @@ class AdminController extends Controller
     public function createTeacherForm($user_id)
     {
         $user = User::find($user_id);
-        return view('admin.teacher.create', compact('user'));
+        $subjects = Subject::all();
+        return view('admin.teachers.create', compact('user', 'subjects'));
     }
 
     public function createParentForm($user_id)
     {
         $user = User::find($user_id);
-        return view('admin.parents.create', compact('user'));
+        $classrooms = Classroom::all();
+        $teachers = Teacher::all();
+
+        return view('admin.parents.create', compact('user', 'classrooms', 'teachers'));
     }
 
     public function teachersIndex()
     {
         $teachers = Teacher::all();
-        return view('admin.teachers.index', compact('teachers'));
+        $classrooms = Classroom::all();
+        return view('admin.teachers.index', compact('teachers', 'classrooms'));
     }
 
     // Hiển thị form tạo mới giáo viên
@@ -119,7 +126,9 @@ class AdminController extends Controller
     public function teachersDestroy($id)
     {
         $teacher = Teacher::findOrFail($id);
+        $user = $teacher->user;
         $teacher->delete();
+        $user->delete();
 
         return redirect()->route('admin.teacher.index')->with('success', 'Xóa giáo viên thành công!');
     }
@@ -134,11 +143,12 @@ class AdminController extends Controller
     public function parentsEdit($id)
     {
         $parent = ParentModel::with('students')->find($id);
+        $classrooms = Classroom::all();
 
         if (!$parent) {
             return redirect()->route('admin.parents.index')->withErrors(['parent', 'Không tìm thấy phụ huynh nào']);
         }
-        return view('admin.parents.edit', compact('parent'));
+        return view('admin.parents.edit', compact('parent', 'classrooms'));
     }
 
     public function parentsUpdate(Request $request, $id)
@@ -148,7 +158,8 @@ class AdminController extends Controller
             'email' => 'required|email',
             'phone' => 'required|string|max:15',
             'students.*.name' => 'required|string|max:255',
-            'students.*.class' => 'required|string|max:40',
+            'students.*.classroom_id' => 'required|exists:classrooms,id',
+            // 'students.*.gender'=> 'required|string|max:10'
         ]);
 
         $parent = ParentModel::find($id);
@@ -156,12 +167,24 @@ class AdminController extends Controller
         if (!$parent) {
             return redirect()->route('admin.parents.index')->withErrors('parent', 'Không tìm thấy phụ huynh nào');
         }
-        $parent->update($validatedData);
+        $parent->update([
+            'name' => $validatedData['name'],
+            'email' => $validatedData['email'],
+            'phone' => $validatedData['phone']
+        ]);
 
         foreach ($request->students as $studentId => $studentData) {
             $student = $parent->students()->find($studentId);
             if ($student) {
-                $student->update($studentData);
+                // Lấy tên lớp từ classroom_id
+                $classroom = Classroom::find($studentData['classroom_id']);
+
+                // Cập nhật thông tin học sinh
+                $student->update([
+                    'name' => $studentData['name'],          // Cập nhật tên học sinh
+                    'classroom_id' => $studentData['classroom_id'],  // Cập nhật ID lớp học
+                    'class' => $classroom ? $classroom->name : null, // Cập nhật tên lớp
+                ]);
             }
         }
         return redirect()->route('admin.parents.index')->with('status', 'Thông tin của phụ huynh đã được lưu');
@@ -170,13 +193,20 @@ class AdminController extends Controller
     public function parentsDelete($id)
     {
         $parent = ParentModel::with('students')->find($id);
+
         if (!$parent) {
             return redirect()->route('admin.parents.index')->withErrors('parent', 'Không tìm thấy phụ huynh nào');
         }
 
         $parent->students()->delete();
 
+        $user = $parent->user();
+
         $parent->delete();
+
+        if ($user) {
+            $user->delete();
+        }
 
         return redirect()->route('admin.parents.index')->with('status', 'Phụ huynh và tất cả học sinh liên quan đã được xóa');
     }
