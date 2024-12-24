@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container my-5">
-    <h3>Thông báo cho {{$teacher->name}}</h3>
+    <h3 class="mb-4"><b>Thông báo cho {{ $teacher->name }}</b></h3>
 
     <!-- Hiển thị thông báo thành công nếu có -->
     @if (session('status'))
@@ -19,15 +19,20 @@
     @endif
 
     <!-- Hiển thị các thông báo -->
-    @foreach ($notifications as $notification)
+    @forelse ($notifications as $notification)
         @php
-        $data = json_decode($notification->data, true);
+            $data = is_array($notification->data) ? $notification->data : json_decode($notification->data, true);
         @endphp
-        <div class="notification mb-4 p-3 border rounded">
-            <h5 class="mb-2">Thông báo từ Admin</h5>
-            <p>{{ $data['message'] ?? 'Không có nội dung thông báo' }}</p>
+
+        <div class="notification mb-4 p-4 border rounded" style="font-size: 25px; line-height: 1;">
+            <h5 class="mb-2" style="font-size: 18px;">
+                Thông báo từ Admin
+            </h5>
+            <p style="font-size: 15px">{{ $data['message'] ?? 'Không có nội dung thông báo' }}</p>
             <small class="text-muted">Thời gian: {{ $notification->created_at->format('d/m/Y H:i') }}</small>
         </div>
-    @endforeach
+    @empty
+        <p>Không có thông báo nào.</p>
+    @endforelse
 </div>
 @endsection

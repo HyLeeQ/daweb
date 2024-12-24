@@ -31,18 +31,15 @@ class TeacherController extends Controller
         $teacher_id = Auth::id();
 
         // Lấy thời khóa biểu của giáo viên theo teacher_id
-        $timetable = Timetable::with('classroom')  // eager load quan hệ classroom
+        $timetable = Timetable::with('classroom') 
             ->where('teacher_id', $teacher_id)
             ->get();
-
         // Lấy thông tin giáo viên từ người dùng đang đăng nhập
         $teacher = Auth::user()->teacher;
-
         // Kiểm tra nếu không có giáo viên
         if (!$teacher) {
             return redirect()->route('teacher.dashboard')->withErrors('Bạn chưa được cấp thông tin giáo viên.');
         }
-
         // Trả về view với cả $timetable và $teacher
         return view('teacher.timetable', compact('timetable', 'teacher', 'teacher_id'));
     }

@@ -57,6 +57,7 @@
         margin: 0;
     }
 </style>
+
 <body style="font-family: 'Open Sans', sans-serif;">
     <header class="header_section">
         <div class="hero_area">
@@ -90,9 +91,10 @@
                                                 style="font-size: 15px">Thông tin phụ huynh</a>
                                         </div>
                                     </li>
+
                                     <li
-                                        class="nav-item {{ Route::currentRouteName() == 'parents.fees' ? 'active' : '' }}">
-                                        <a class="nav-link" href="{{ route('admin.notification.create') }}">Thông
+                                        class="nav-item {{ Route::currentRouteName() == '#' ? 'active' : '' }}">
+                                        <a class="nav-link" href="{{ route('admin.notification.index') }}">Thông
                                             báo</a>
                                     </li>
                                     {{-- <li class="nav-item">
@@ -100,8 +102,8 @@
                                     </li> --}}
 
                                     <li
-                                        class="nav-item {{ Route::currentRouteName() == 'parents.fees' ? 'active' : '' }}">
-                                        <a class="nav-link" href="{{ route('admin.timetable.create') }}">thời khóa
+                                        class="nav-item {{ Route::currentRouteName() == '#' ? 'active' : '' }}">
+                                        <a class="nav-link" href="{{ route('admin.timetable.index') }}">thời khóa
                                             biểu</a>
                                     </li>
                                     <li
@@ -109,14 +111,16 @@
                                         <a class="nav-link" href="{{ route('register.form') }}">tạo tài khoản</a>
                                     </li>
                                     <div class="quote_btn-container">
-                                        <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                        <a href="#"
+                                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                             <i class="fas fa-user" aria-hidden="true"></i><span>Đăng xuất</span>
                                         </a>
-                                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                        <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                            style="display: none;">
                                             @csrf
                                         </form>
                                     </div>
-                                    
+
                                     {{-- <li class="nav-item ms-auto">
                                         <a class="nav-link" href="{{ route('logout') }}"
                                             onclick="event.preventDefault(); document.getElementById('logout-form').submit();">

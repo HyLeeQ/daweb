@@ -8,6 +8,7 @@ use App\Models\Student;
 use App\Models\Subject;
 use App\Models\User;
 use App\Models\Teacher;
+use App\Models\Timetable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
@@ -236,4 +237,28 @@ class AdminController extends Controller
         // Trả về kết quả tìm kiếm ra view
         return view('admin.parents.search', compact('parents'));
     }
+
+    public function showTimetable(Request $request)
+    {
+        // Lấy tất cả các lớp để hiển thị trong select box
+        $classes = Classroom::all();
+        
+        // Kiểm tra xem có lớp nào được chọn hay không
+        $selected_class_id = $request->input('class_id');
+        
+        if ($selected_class_id) {
+            // Nếu có lớp được chọn, lấy thời khóa biểu của lớp đó
+            $timetables = Timetable::with('classroom', 'teacher')
+                ->where('class_id', $selected_class_id) // Lọc theo class_id
+                ->get();
+        } else {
+            // Nếu không có lớp nào được chọn, không lấy thời khóa biểu
+            $timetables = collect();
+        }
+        
+        // Trả về view với danh sách lớp và thời khóa biểu nếu có
+        return view('admin.timetable.index', compact('timetables', 'classes', 'selected_class_id'));
+    }
+    
+    
 }

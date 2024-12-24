@@ -6,13 +6,14 @@
     <div class="container my-5">
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h1>Danh sách giáo viên</h1>
-            {{-- <a href="{{ route('admin.teacher.create') }}" class="btn btn-success btn-lg ms-auto">Thêm giáo viên</a> --}}
         </div>
 
         <!-- Tìm kiếm giáo viên -->
         <form action="{{ route('admin.teacher.search') }}" method="GET" class="d-flex mb-4">
-            <input type="text" name="keyword" class="form-control form-control-lg me-2" placeholder="Tìm kiếm theo tên, khóa học, môn học">
-            <button type="submit" class="btn btn-secondary">Tìm kiếm</button>
+            <input type="text" name="keyword" class="form-control form-control-lg me-2" placeholder="Tìm kiếm theo tên, khóa học, môn học" style="height: 38px;">
+            <button type="submit" class="btn btn-primary" style="font-size: 14px; font-weight: 600; background-color: #007bff; border-color: #007bff; color: white; padding: 0px 10px; border-radius: 5px; text-transform: uppercase; height: 38px;">
+                Tìm kiếm
+            </button>
         </form>
 
         <!-- Bảng danh sách giáo viên -->
@@ -47,14 +48,22 @@
                             <td>{{ $teacher->subject }}</td>
                             <td>{{ $teacher->address }}</td>
                             <td>
-                                <a href="{{ route('admin.teacher.edit', $teacher->id) }}" class="btn btn-warning btn-lg">Chỉnh sửa</a>
+                                <!-- Sử dụng d-flex để căn chỉnh các nút trên cùng một hàng -->
+                                <div class="d-flex">
+                                    <!-- Nút chỉnh sửa -->
+                                    <a href="{{ route('admin.teacher.edit', $teacher->id) }}" class="btn btn-warning btn-sm me-3 px-4" style="font-size: 14px; padding: 8px 20px; margin-right: 5px;">
+                                        Chỉnh sửa
+                                    </a>
 
-                                <!-- Form xóa giáo viên với xác nhận -->
-                                <form action="{{ route('admin.teacher.destroy', $teacher->id) }}" method="POST" style="display:inline;" onsubmit="return confirm('Bạn có chắc chắn muốn xóa giáo viên này?');">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-danger btn-lg">Xóa</button>
-                                </form>
+                                    <!-- Form xóa giáo viên với xác nhận -->
+                                    <form action="{{ route('admin.teacher.destroy', $teacher->id) }}" method="POST" onsubmit="return confirm('Bạn có chắc chắn muốn xóa giáo viên này?');" class="ms-2">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-danger btn-sm px-4" style="font-size: 14px; padding: 8px 20px; margin-right: 5px;">
+                                            Xóa
+                                        </button>
+                                    </form>
+                                </div>
                             </td>
                         </tr>
                     @endforeach

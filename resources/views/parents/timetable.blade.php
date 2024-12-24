@@ -21,7 +21,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (range(1, 5) as $i)
+                @foreach (range(1, 10) as $i)
                     <tr>
                         <td><strong>Tiết {{ $i }}</strong></td>
                         @foreach (range(1, 7) as $day)

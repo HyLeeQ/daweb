@@ -29,11 +29,11 @@ class LoginController extends Controller
 
             // Phân luồng dựa trên vai trò của người dùng
             if ($user->role == 'admin') {
-                return redirect()->route('admin.index'); // Đổi lại route admin phù hợp
+                return redirect()->route('admin.index');
             } elseif ($user->role == 'teacher') {
-                return redirect()->route('teacher.dashboard'); // Đổi lại route teacher phù hợp
+                return redirect()->route('teacher.dashboard'); 
             } elseif ($user->role == 'parent') {
-                return redirect()->route('parents.timetable'); // Đổi lại route parent phù hợp
+                return redirect()->route('parents.timetable'); 
             }
         }
         return back()->withErrors([
@@ -41,13 +41,13 @@ class LoginController extends Controller
         ]);
     }
 
-    public function logout(Request $request)
-    {
+        public function logout(Request $request)
+        {
 
-        Auth::logout();
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
+            Auth::logout();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
 
-        return redirect('/');
-    }
+            return redirect('/');
+        }
 }

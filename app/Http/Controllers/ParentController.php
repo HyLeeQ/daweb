@@ -24,22 +24,17 @@ class ParentController extends Controller
     {
         // Lấy thông tin phụ huynh của tài khoản đang đăng nhập
         $parent = ParentModel::with('students.classroom')->where('user_id', auth()->id())->first();
-
         if (!$parent) {
             return redirect()->route('admin.parents.index')->withErrors('Không tìm thấy phụ huynh nào');
         }
-
         $timetables = [];
-
         // Lấy thời khóa biểu của từng học sinh thuộc phụ huynh
         foreach ($parent->students as $student) {
             $classroomId = $student->classroom_id;
-
             $timetables[$student->id] = Timetable::with('teacher') // Chỉ cần load quan hệ teacher
                 ->where('class_id', $classroomId)
                 ->get();
         }
-
         return view('parents.timetable', compact('parent', 'timetables'));
     }
 
@@ -57,9 +52,6 @@ class ParentController extends Controller
 
     public function storeParent(Request $request)
     {
-        // Kiểm tra tất cả dữ liệu đầu vào
-        // dd($request->all());
-
         $validatedData = $request->validate([
             'user_id'  => 'required|exists:users,id',
             'student_name' => 'required|string',
@@ -113,22 +105,27 @@ class ParentController extends Controller
     {
         // Lấy thông tin phụ huynh đang đăng nhập
         $parent = ParentModel::where('user_id', auth()->id())->first();
-
-        // Lấy thông báo từ bảng notifications theo phụ huynh, bao gồm thông báo từ Admin và Teacher
-        $notifications = DatabaseNotification::where('notifiable_type', 'App\Models\ParentModel')
-            ->where('notifiable_id', $parent->id)
-            ->whereIn('type', ['App\Notifications\AdminNotification', 'App\Notifications\TeacherNotification']) // Sử dụng dấu \ đơn
+    
+        // Lấy thông báo
+        $notifications = DatabaseNotification::where(function ($query) use ($parent) {
+                $query->where('notifiable_type', 'App\Models\ParentModel')
+                      ->where(function ($subQuery) use ($parent) {
+                          $subQuery->where('notifiable_id', $parent->id)
+                                   ->orWhere('notifiable_id', 0); // Thêm điều kiện để lấy thông báo chung
+                      });
+            })
+            ->whereIn('type', ['App\Notifications\AdminNotification', 'App\Notifications\TeacherNotification'])
             ->orderBy('created_at', 'desc')
             ->get();
-
-
-        // Kiểm tra nếu dữ liệu là mảng thì không cần gọi json_decode
+    
+        // Kiểm tra và giải mã JSON
         foreach ($notifications as $notification) {
             if (is_string($notification->data)) {
                 $notification->data = json_decode($notification->data, true);
             }
         }
-
+    
         return view('parents.notifications', compact('notifications', 'parent'));
     }
+    
 }

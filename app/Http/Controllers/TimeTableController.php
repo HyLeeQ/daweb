@@ -42,4 +42,12 @@ class TimeTableController extends Controller
 
         return redirect()->route('admin.timetable.create')->with('status', 'Thời khóa biểu đã được tạo thành công!');
     }
+    public function destroy($class_id)
+    {
+        // Xóa tất cả thời khóa biểu liên quan đến lớp với class_id
+        Timetable::where('class_id', $class_id)->delete();
+
+        // Trả về thông báo thành công
+        return redirect()->route('admin.timetable.index')->with('status', 'Thời khóa biểu của lớp đã được xóa thành công.');
+    }
 }

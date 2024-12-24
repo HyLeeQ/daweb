@@ -4,7 +4,7 @@
 
 @section('content')
 <div class="container my-5">
-    <h3>Thông báo cho {{$parent->name}}</h3>
+    <h3 class="mb-4"><b>Thông báo cho {{ $parent->name }}</b></h3>
 
     <!-- Hiển thị thông báo thành công nếu có -->
     @if (session('status'))
@@ -21,26 +21,24 @@
     @endif
 
     <!-- Hiển thị các thông báo -->
-    @foreach ($notifications as $notification)
-    <div class="notification mb-4 p-3 border rounded">
-        <!-- Debug dữ liệu notification -->
-        {{-- <pre>{{ var_dump($notification) }}</pre> --}}
-        
+    @forelse ($notifications as $notification)
         @php
             $data = is_array($notification->data) ? $notification->data : json_decode($notification->data, true);
         @endphp
 
-        <!-- Kiểm tra nếu dữ liệu là mảng, không cần gọi json_decode -->
-        @if ($notification->type === 'App\Notifications\AdminNotification')
-            <h5 class="mb-2">Thông báo từ Admin</h5>
-        @elseif ($notification->type === 'App\Notifications\TeacherNotification')
-            <h5 class="mb-2">Thông báo từ Giáo viên Chủ Nhiệm</h5>
-        @endif
-
-        <p>{{ $data['message'] ?? 'Không có nội dung thông báo' }}</p>
-        <small class="text-muted">Thời gian: {{ $notification->created_at->format('d/m/Y H:i') }}</small>
-    </div>
-@endforeach
-
+        <div class="notification mb-4 p-4 border rounded" style="font-size: 25px; line-height: 1;">
+            <h5 class="mb-2" style="font-size: 18px;">
+                @if ($notification->type === 'App\Notifications\AdminNotification')
+                    Thông báo từ Admin
+                @elseif ($notification->type === 'App\Notifications\TeacherNotification')
+                    Thông báo từ Giáo viên Chủ Nhiệm
+                @endif
+            </h5>
+            <p style="font-size: 15px">{{ $data['message'] ?? 'Không có nội dung thông báo' }}</p>
+            <small class="text-muted">Thời gian: {{ $notification->created_at->format('d/m/Y H:i') }}</small>
+        </div>
+    @empty
+        <p>Không có thông báo nào.</p>
+    @endforelse
 </div>
 @endsection

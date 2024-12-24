@@ -88,6 +88,21 @@ Route::middleware(['auth', CheckAdmin::class])->prefix('admin')->name('admin.')-
     // Route xử lý gửi thông báo
     Route::post('/notification/send', [AdminNotificationController::class, 'sendNotification'])->name('notification.send');
 
+    //Route thông báo đã gửi
+    Route::get('/notification/index', [AdminNotificationController::class, 'showAdminNotifications'])->name('notification.index');
+    // Route tao thoi khoa bieu
+    Route::get('/timetable/create', [TimeTableController::class, 'create'])->name('timetable.create');
+    // Route luu thoi khoa bieu
+    Route::post('/timetable/store', [TimeTableController::class, 'store'])->name('timetable.store');
+
+    // Route cho trang xem tất cả thời khóa biểu
+    Route::get('/timetable/index', [AdminController::class, 'showTimetable'])->name('timetable.index');
+    // Xóa thời khóa biểu của một lớp
+    Route::delete('/timetable/{class_id}', [TimetableController::class, 'destroy'])->name('timetable.destroy');
+
+
+    // Route để lấy thời khóa biểu của lớp
+    // Route::get('/timetable/{class_id}', [TimetableController::class, 'getTimetable'])->name('timetable.get');
 
 
     //Route dẫn tới form điền thông tin phụ huynh
@@ -99,8 +114,6 @@ Route::middleware(['auth', CheckAdmin::class])->prefix('admin')->name('admin.')-
     Route::put('/parent/{id}', [AdminController::class, 'parentsUpdate'])->name('parents.update');
     Route::get('/parent/search', [AdminController::class, 'parentsSearch'])->name('parents.search');
     Route::delete('/parent/{id}', [AdminController::class, 'parentsDelete'])->name('parents.delete');
-    Route::get('/timetable/create', [TimeTableController::class, 'create'])->name('timetable.create');
-    Route::post('/timetable/store', [TimeTableController::class, 'store'])->name('timetable.store');
 });
 
 
@@ -112,6 +125,7 @@ Route::middleware(['auth', CheckParent::class])->prefix('parent')->name('parents
     Route::get('/results', [ParentController::class, 'results'])->name('results');
     Route::get('/fees', [ParentController::class, 'fees'])->name('fees');
 });
+
 
 
 Route::middleware(['auth', CheckTeacher::class])->prefix('teacher')->name('teacher.')->group(function () {
@@ -138,7 +152,6 @@ Route::middleware(['auth', CheckTeacher::class])->prefix('teacher')->name('teach
     Route::get('/{teacher_id}/grades/create', [GradeController::class, 'create'])->name('grades.create');
     Route::post('/grades/store', [GradeController::class, 'store'])->name('grades.store');
     Route::get('/{teacher_id}/class/{class_id}/student/{student_id}/edit', [GradeController::class, 'edit'])->name('grades.edit');
-
 });
 Route::fallback(function () {
     return response('Route không tồn tại. Kiểm tra lại URL.', 404);
